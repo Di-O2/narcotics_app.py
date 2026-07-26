@@ -5,7 +5,8 @@ import requests
 import json
 
 # رابط Apps Script الخاص بك لإرسال الإيميل والواتساب وحفظ الملف في Drive
-GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4i_SPTPoLOZmuquFgHLxTxp2nYqAVAOfMNeOLo39tGtdsMuckOR28UIBThiwBtEe9kw/exec"
+# رابط Apps Script الخاص بك لإرسال البيانات وحفظها في Google Sheets
+GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznK9RjSznoyujIlnc0lUi5-cFyX6PXGF4jXG32cPt1rPkwdfVkFNXNQj3pCvf9BJ14Hw/exec"
 
 # إعدادات الصفحة الرسمية
 st.set_page_config(
