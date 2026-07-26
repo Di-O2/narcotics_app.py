@@ -5,7 +5,7 @@ import requests
 import json
 
 # رابط Apps Script الخاص بك لإرسال البيانات وحفظها في Google Sheets وإرسال الإيميل
-GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzwX_VQ8D-Rb989y6ThpWXmQ7qNh0TOZMyuXucU2J1xjAVPxN3iW05czjfNtYGECDDS/exec"
+GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzY9VKusUztBOfLC1mouggWr0WM1ionaDSCI6M5Ac5vENcGRP6_vshm2ET-XelPCk1c/exec"
 
 # إعدادات الصفحة الرسمية
 st.set_page_config(
