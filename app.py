@@ -4,7 +4,6 @@ import streamlit.components.v1 as components
 import requests
 import json
 
-# رابط Apps Script الخاص بك لإرسال الإيميل والواتساب وحفظ الملف في Drive
 # رابط Apps Script الخاص بك لإرسال البيانات وحفظها في Google Sheets
 GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznK9RjSznoyujIlnc0lUi5-cFyX6PXGF4jXG32cPt1rPkwdfVkFNXNQj3pCvf9BJ14Hw/exec"
 
@@ -66,12 +65,10 @@ st.divider()
 
 # البيانات الأساسية
 st.subheader("📌 البيانات الأساسية للزيارة التفتيشية")
-c1, c2, c3 = st.columns(3)
+c1, c2 = st.columns(2)
 with c1:
     center_name = st.text_input("اسم المركز الصحي", value="", placeholder="أدخل اسم المركز الصحي")
 with c2:
-    inspector_name = st.text_input("اسم المفتش الميداني", value="", placeholder="أدخل اسم المفتش الميداني")
-with c3:
     inspection_date = st.date_input("تاريخ التفتيش", value=datetime.date.today())
 
 st.divider()
@@ -120,7 +117,7 @@ with st.form("narcotic_inspection_form"):
                 with col_note:
                     note = st.text_input(
                         f"ملاحظة البند {num}",
-                        placeholder="ملاحظات المفتش (إن وجدت)",
+                        placeholder="الملاحظات (إن وجدت)",
                         key=f"note_narc_{num}",
                         label_visibility="collapsed"
                     )
@@ -153,12 +150,10 @@ if submit_btn:
             
     compliance_rate = (total_score / len(responses)) * 100
     display_center = center_name if center_name.strip() else "غير محدد"
-    display_inspector = inspector_name if inspector_name.strip() else "غير محدد"
     
     if GOOGLE_SCRIPT_URL:
         payload = {
             "center_name": display_center,
-            "inspector_name": display_inspector,
             "inspection_date": str(inspection_date),
             "compliance_rate": f"{compliance_rate:.2f}",
             "matched_cnt": matched_cnt,
@@ -171,7 +166,7 @@ if submit_btn:
             try:
                 res_data = res.json()
                 if res_data.get("result") == "success":
-                    st.success("✅ تم حفظ التقرير في Google Drive وإرسال الإشعار بنجاح!")
+                    st.success("✅ تم حفظ التقرير في Google Sheets وإرسال الإشعار بنجاح!")
                 else:
                     st.success("✅ تم إرسال البيانات للسكربت بنجاح!")
             except Exception:
@@ -180,11 +175,10 @@ if submit_btn:
             st.warning("⚠️ تم حساب النتائج وتوليد التقرير المطبوع محلياً.")
 
     st.subheader("📊 ملخص نتائج التقييم")
-    m1, m2, m3, m4 = st.columns(4)
+    m1, m2, m3 = st.columns(3)
     m1.metric("🏥 المركز الصحي", display_center)
-    m2.metric("👨‍⚕️ المفتش الميداني", display_inspector)
-    m3.metric("📅 تاريخ التفتيش", str(inspection_date))
-    m4.metric("📈 نسبة الامتثال الإجمالية", f"{compliance_rate:.2f}%")
+    m2.metric("📅 تاريخ التفتيش", str(inspection_date))
+    m3.metric("📈 نسبة الامتثال الإجمالية", f"{compliance_rate:.2f}%")
     
     c1, c2, c3 = st.columns(3)
     c1.success(f"✅ مطابق: {matched_cnt}")
@@ -217,7 +211,7 @@ if submit_btn:
         <div class="header">
             <p style="font-size:14px; color:#f3e5ab; margin-bottom:5px;">🏛️ التجمع الصحي الثاني - إدارة الخدمات الصيدلانية لمراكز الرعاية الصحية الأولية</p>
             <h2>تقرير تقييم الأدوية المخدرة والمؤثرات العقلية</h2>
-            <p><strong>اسم المركز:</strong> {display_center} | <strong>المفتش الميداني:</strong> {display_inspector} | <strong>التاريخ:</strong> {inspection_date}</p>
+            <p><strong>اسم المركز:</strong> {display_center} | <strong>التاريخ:</strong> {inspection_date}</p>
             <p><strong>نسبة الامتثال الإجمالية:</strong> {compliance_rate:.2f}%</p>
         </div>
         
@@ -225,7 +219,7 @@ if submit_btn:
     """
 
     for sec_name, items in sections.items():
-        html_report += f"<h4>🔹 {sec_name}</h4><table><tr><th>م</th><th>المعيار</th><th>الحالة</th><th>ملاحظات المفتش</th></tr>"
+        html_report += f"<h4>🔹 {sec_name}</h4><table><tr><th>م</th><th>المعيار</th><th>الحالة</th><th>ملاحظات التفتيش</th></tr>"
         sec_responses = [r for r in responses if r['section'] == sec_name]
         for it in sec_responses:
             st_text = it['status'] if it['status'] else "غير محدد"
