@@ -39,10 +39,15 @@ st.divider()
 # البيانات الأساسية
 st.subheader("📌 البيانات الأساسية للزيارة التفتيشية")
 c1, c2 = st.columns(2)
+
+# حساب تاريخ اليوم الحالي بشكل ديناميكي عند كل زيارة
+today = datetime.date.today()
+
 with c1:
     center_name = st.text_input("اسم المركز الصحي", value="", placeholder="أدخل اسم المركز الصحي")
 with c2:
-    inspection_date = st.date_input("تاريخ التفتيش", value=datetime.date.today())
+    # تم تحديد min_value=today لمنع اختيار أي تاريخ سابق لتاريخ اليوم
+    inspection_date = st.date_input("تاريخ التفتيش", value=today, min_value=today)
 
 st.divider()
 
