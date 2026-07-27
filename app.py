@@ -14,7 +14,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# ضبط الخط الافتراضي للتطبيق كاملاً إلى Calibri والاتجاه لليمين
+# ضبط الخط الافتراضي للتطبيق كاملاً والاتجاه لليمين
 st.markdown("""
     <style>
         html, body, [class*="css"], font, label, input, button, select, p, div, h1, h2, h3 {
@@ -26,38 +26,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# ترويسة البانر الحكومي المعتمد
-st.markdown("""
-    <div style="
-        background: linear-gradient(135deg, #052e24 0%, #004d40 45%, #00695c 100%);
-        border: 2px solid #d4af37;
-        border-radius: 16px;
-        padding: 25px 30px;
-        color: white;
-        font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
-        direction: rtl;
-        text-align: right;
-        margin-bottom: 25px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-    ">
-        <div style="border-bottom: 1px solid rgba(212, 175, 55, 0.4); padding-bottom: 12px; margin-bottom: 15px;">
-            <span style="background: linear-gradient(90deg, #d4af37, #f3e5ab); color: #052e24; font-size: 15px; font-weight: bold; padding: 4px 14px; border-radius: 6px; font-family: Calibri, sans-serif;">🏛️ التجمع الصحي الثاني</span>
-            <div style="font-size: 22px; font-weight: bold; color: #ffffff; margin-top: 10px; font-family: Calibri, sans-serif;">إدارة الخدمات الصيدلانية لمراكز الرعاية الصحية الأولية</div>
-            <div style="font-size: 14px; color: #a3c9bc; direction: ltr; text-align: right; font-family: Calibri, sans-serif;">Department of Pharmaceutical Services - Primary Healthcare Centers</div>
-        </div>
-        <div style="margin-bottom: 15px;">
-            <span style="font-size: 34px; font-weight: bold; color: #ffffff; font-family: Calibri, sans-serif;">تقرير تقييم الأدوية المخدرة والمؤثرات العقلية</span>
-            <span style="font-size: 18px; font-weight: bold; color: #d4af37; direction: ltr; display: inline-block; margin-right: 15px; border-right: 2px solid rgba(255,255,255,0.3); padding-right: 15px; font-family: Calibri, sans-serif;">Narcotic & Controlled Substances Report</span>
-        </div>
-        <div style="font-size: 16px; color: #d0e8e0; margin-bottom: 15px; font-family: Calibri, sans-serif;">
-            المنصة الرقمية الموحدة لتقييم ومتابعة امتثال ضوابط الأدوية المخدرة والمؤثرات العقلية.
-        </div>
-        <div>
-            <span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: white; padding: 5px 14px; border-radius: 8px; font-size: 14px; font-family: Calibri, sans-serif; margin-left: 8px;">📊 تقييم رقابي فوري</span>
-            <span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: white; padding: 5px 14px; border-radius: 8px; font-size: 14px; font-family: Calibri, sans-serif;">🖨️ تقارير PDF مباشرة</span>
-        </div>
-    </div>
-""", unsafe_allow_html=True)
+# عرض صورة الترويسة المعتمدة
+try:
+    st.image("header.jpg", use_container_width=True)
+except Exception:
+    st.title("🏛️ تقرير الزيارة الميدانية - الأدوية المخدرة والمؤثرات العقلية")
 
 st.write("قم بتعبئة النموذج الميداني أدناه لتقييم ضوابط الأدوية المخدرة والحصول على التقييم الفوري وتوليد التقرير المطبوع مباشرة.")
 
