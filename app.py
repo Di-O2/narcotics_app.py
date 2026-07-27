@@ -1,5 +1,6 @@
 import streamlit as st
 import datetime
+from zoneinfo import ZoneInfo
 import streamlit.components.v1 as components
 import requests
 import json
@@ -40,13 +41,13 @@ st.divider()
 st.subheader("📌 البيانات الأساسية للزيارة التفتيشية")
 c1, c2 = st.columns(2)
 
-# حساب تاريخ اليوم الحالي بشكل ديناميكي عند كل زيارة
-today = datetime.date.today()
+# حساب تاريخ اليوم الحالي بتوقيت الرياض المحلي
+today = datetime.datetime.now(ZoneInfo("Asia/Riyadh")).date()
 
 with c1:
     center_name = st.text_input("اسم المركز الصحي", value="", placeholder="أدخل اسم المركز الصحي")
 with c2:
-    # تم تحديد min_value=today لمنع اختيار أي تاريخ سابق لتاريخ اليوم
+    # تحديد min_value=today لمنع اختيار أي تاريخ سابق لتاريخ اليوم المحلي
     inspection_date = st.date_input("تاريخ التفتيش", value=today, min_value=today)
 
 st.divider()
