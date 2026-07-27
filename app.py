@@ -5,7 +5,7 @@ import streamlit.components.v1 as components
 import requests
 import json
 
-# رابط Apps Script الخاص بك لإرسال البيانات وحفظها في Google Sheets وإرسال الإيميل
+# رابط Apps Script الخاص بإرسال البيانات وحفظها في Google Sheets وإرسال الإيميل
 GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzY9VKusUztBOfLC1mouggWr0WM1ionaDSCI6M5Ac5vENcGRP6_vshm2ET-XelPCk1c/exec"
 
 # إعدادات الصفحة الرسمية
@@ -15,7 +15,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# ضبط الخط الافتراضي للتطبيق كاملاً والاتجاه لليمين
+# ضبط الخط الافتراضي للواجهة وإتجاه النصوص، وإخفاء القوائم وأزرار النظام بالكامل للمفتشين
 st.markdown("""
     <style>
         html, body, [class*="css"], font, label, input, button, select, p, div, h1, h2, h3 {
@@ -24,6 +24,12 @@ st.markdown("""
             text-align: right;
         }
         .stMetric { text-align: right; }
+        
+        /* إخفاء القائمة العلوية والشريط العلوي وشعار GitHub */
+        #MainMenu {visibility: hidden;}
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+        .stDeployButton {display:none;}
     </style>
 """, unsafe_allow_html=True)
 
@@ -41,7 +47,7 @@ st.divider()
 st.subheader("📌 البيانات الأساسية للزيارة التفتيشية")
 c1, c2 = st.columns(2)
 
-# حساب تاريخ اليوم الحالي بتوقيت الرياض المحلي
+# حساب تاريخ اليوم الحالي بتوقيت الرياض المحلي (Asia/Riyadh)
 today = datetime.datetime.now(ZoneInfo("Asia/Riyadh")).date()
 
 with c1:
