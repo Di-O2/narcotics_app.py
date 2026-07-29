@@ -33,12 +33,19 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# عرض صورة الترويسة المعتمدة
-try:
-    st.image("header.jpg", use_container_width=True)
-except Exception:
-    st.title("🏛️ تقرير الزيارة الميدانية - الأدوية المخدرة والمؤثرات العقلية")
+import os
 
+# البحث التلقائي عن صورة الترويسة بأي صيغة (jpg, png, jpeg)
+header_image = None
+for filename in ["header.jpg", "header.png", "header.jpeg", "header.JPG", "header.PNG", "header.JPEG"]:
+    if os.path.exists(filename):
+        header_image = filename
+        break
+
+if header_image:
+    st.image(header_image, use_container_width=True)
+else:
+    st.title("🏛️ تقرير الزيارة الميدانية - الأدوية المخدرة والمؤثرات العقلية")
 st.write("قم بتعبئة النموذج الميداني أدناه لتقييم ضوابط الأدوية المخدرة والحصول على التقييم الفوري وتوليد التقرير المطبوع مباشرة.")
 
 st.divider()
