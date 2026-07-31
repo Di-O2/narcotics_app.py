@@ -23,36 +23,37 @@ saudi_now = datetime.now(saudi_tz)
 GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbZm08M6lDJVyWzVV7ENc9rHoXd_j2IzK-J_GxNOoqgvHmIvHDzjbNB4Q3RlADCySYd/exec"
 
 # ==========================================
-# 2. تنسيق الخطوط وإخفاء الشريط العلوي والسفلي بالكامل
+# 2. تنسيق الخطوط وإخفاء الشريط العلوي والسفلي والشارات بالكامل
 # ==========================================
 st.markdown(
     """
     <style>
-        /* 1. إخفاء الشريط العلوي والمنيو والهيدر بالكامل */
-        header[data-testid="stHeader"],
-        div[data-testid="stHeader"],
-        div[data-testid="stToolbar"],
-        div[data-testid="stDecoration"],
-        #MainMenu,
-        footer {
+        /* 1. إخفاء الشريط العلوي والمنيو والهيدر */
+        header, footer, #MainMenu, 
+        [data-testid="stHeader"], 
+        [data-testid="stFooter"], 
+        [data-testid="stToolbar"],
+        [data-testid="stDecoration"] {
             display: none !important;
             visibility: hidden !important;
             height: 0 !important;
         }
 
-        /* 2. إخفاء جميع الشارات والأيقونات والشريط السفلي (Hosted with Streamlit / Created by) */
+        /* 2. إخفاء الحاوية السفلية والشارات العائمة بالكامل */
+        [data-testid="stBottom"],
+        [data-testid="stBottomBlockContainer"],
+        [data-testid="stStatusWidget"],
+        .stAppDeployButton,
         div[class*="viewerBadge"],
         div[class*="viewerBadge_container"],
         div[class*="styles_viewerBadge"],
         div[class*="StyledAppViewerFooter"],
-        div[class*="stAppFooter"],
         div[class*="AppViewerFooter"],
-        [data-testid="stStatusWidget"],
-        [data-testid="stBottom"],
-        .stAppDeployButton,
+        div[class*="stAppFooter"],
         a[href*="streamlit.io"],
         a[aria-label*="Streamlit"],
-        div:has(> a[href*="streamlit.io"]) {
+        div:has(> a[href*="streamlit.io"]),
+        div:has(> [class*="viewerBadge"]) {
             display: none !important;
             visibility: hidden !important;
             opacity: 0 !important;
@@ -134,7 +135,7 @@ st.write(
 st.divider()
 
 # ==========================================
-# 4. البيانات الأساسية (بدون وقت أو ساعة)
+# 4. البيانات الأساسية (التاريخ فقط)
 # ==========================================
 st.subheader("📌 البيانات الأساسية للزيارة")
 c1, c2, c3 = st.columns(3)
@@ -162,22 +163,22 @@ with c3:
 st.divider()
 
 # ==========================================
-# 5. بنود التقييم الخاصة بالأدوية المخدرة
+# 5. بنود التقييم الـ 13 الخاصة بالأدوية المخدرة
 # ==========================================
 items_data = [
     (
         "1",
-        "السياسات والسلحيات",
+        "السياسات والصلاحيات",
         "وجود قائمة المعتمدين بكتابة الوصفات الطبية المخدرة والمؤثرات العقلية.",
     ),
     (
         "2",
-        "السياسات والسلحيات",
+        "السياسات والصلاحيات",
         "توفر قائمة بالمصرح لهم بدخول غرفة الأدوية وحمل مفتاح الخزنة.",
     ),
     (
         "3",
-        "السياسات والسلحيات",
+        "السياسات والصلاحيات",
         "توفر ونفاذ سياسات التعامل مع الأدوية المخدرة المحدثة والمعتمدة.",
     ),
     (
@@ -198,23 +199,38 @@ items_data = [
     (
         "7",
         "السجلات والتوثيق",
-        "التوثيق الفوري والصحيح لكافة عمليات الصرف والاستلام في السجلات.",
+        "وجود سجل رسمي معتمد لمتابعة وحصر الأدوية المخدرة والمؤثرات العقلية.",
     ),
     (
         "8",
         "السجلات والتوثيق",
-        "اكتمال بيانات الوصفات الطبية الخاصة بالأدوية المخدرة والتوقيعات.",
+        "التوثيق الفوري والصحيح لكافة عمليات الصرف والاستلام والتسليم.",
     ),
     (
         "9",
-        "الإتلاف والعهدة",
-        "توفر ملف مخصص لمحاضر الإتلاف والفاقد والمكسور ومتابعة التعاميم.",
+        "السجلات والتوثيق",
+        "اكتمال بيانات الوصفات الطبية الخاصة بالأدوية المخدرة والتوقيعات.",
     ),
     (
         "10",
         "الإتلاف والعهدة",
+        "توفر ملف مخصص لمحاضر الإتلاف والفاقد والمكسور ومتابعة التعاميم.",
+    ),
+    (
+        "11",
+        "الإتلاف والعهدة",
+        "التقييم الدوري والجرد الفعلي للعهدة وتوثيق محاضر الاستلام والتسليم.",
+    ),
+    (
+        "12",
+        "الإتلاف والعهدة",
         "التأكد من عدم وجود أدوية مخدرة منتهية الصلاحية أو تالفة دون اتخاذ"
         " الإجراء النظامي.",
+    ),
+    (
+        "13",
+        "الإتلاف والعهدة",
+        "سلامة أقفال ومحاضر الفتح الخاصة بعربة الطوارئ أو الحقيبة الإسعافية.",
     ),
 ]
 
@@ -222,7 +238,7 @@ sections = {}
 for num, sec, crit in items_data:
     sections.setdefault(sec, []).append((num, crit))
 
-st.subheader("📋 نموذج تقييم الرقابة على الأدوية المخدرة")
+st.subheader("📋 نموذج تقييم الرقابة على الأدوية المخدرة (13 بنداً)")
 
 responses = []
 
@@ -355,7 +371,7 @@ if submit_btn:
             <p><strong>نسبة الامتثال الإجمالية:</strong> {compliance_rate:.2f}%</p>
         </div>
         
-        <h3>📋 تفاصيل بنود التقييم والملاحظات:</h3>
+        <h3>📋 تفاصيل بنود التقييم والملاحظات (13 بنداً):</h3>
     """
 
     for sec_name, items in sections.items():
@@ -377,7 +393,7 @@ if submit_btn:
 
     html_report += "</body></html>"
 
-    components.html(html_report, height=600, scrolling=True)
+    components.html(html_report, height=650, scrolling=True)
 
 # ==========================================
 # 7. تذييل الصفحة الرسمي
