@@ -10,7 +10,7 @@ import streamlit.components.v1 as components
 # 1. إعدادات الصفحة الرسمية والتوقيت الزمني للسعودية
 # ==========================================
 st.set_page_config(
-    page_title="تقييم الأدوية المخدرة والمؤثرات العقلية | إدارة الخدمات الصيدلانية",
+    page_title="تقرير تقييم الأدوية المخدرة والمؤثرات العقلية | إدارة الخدمات الصيدلانية",
     page_icon="💊",
     layout="wide",
 )
@@ -19,8 +19,7 @@ st.set_page_config(
 saudi_tz = zoneinfo.ZoneInfo("Asia/Riyadh")
 saudi_now = datetime.now(saudi_tz)
 
-# رابط Google Apps Script الخاص بتقييم الأدوية المخدرة
-GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbZm08M6lDJVyWzVV7ENc9rHoXd_j2IzK-J_GxNOoqgvHmIvHDzjbNB4Q3RlADCySYd/exec"
+GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNVcGm7Ct1YiI9ZxXziNHyTKjpkOTkthkkaD1JvyY1DL4airewyogDV727XUweCLXJ/exec"
 
 # ==========================================
 # 2. تنسيق الخطوط وإخفاء الشريط العلوي والسفلي والشارات بالكامل
@@ -28,28 +27,29 @@ GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbZm08M6lDJVyWzVV7EN
 st.markdown(
     """
     <style>
-        /* 1. إخفاء الشريط العلوي والمنيو والهيدر */
+        /* 1. إخفاء الشريط العلوي والمنيو والهيدر والفوتر */
         header, footer, #MainMenu, 
         [data-testid="stHeader"], 
         [data-testid="stFooter"], 
         [data-testid="stToolbar"],
-        [data-testid="stDecoration"] {
+        [data-testid="stDecoration"],
+        [data-testid="stStatusWidget"],
+        [data-testid="stBottom"],
+        [data-testid="stBottomBlockContainer"] {
             display: none !important;
             visibility: hidden !important;
             height: 0 !important;
         }
 
-        /* 2. إخفاء الحاوية السفلية والشارات العائمة بالكامل */
-        [data-testid="stBottom"],
-        [data-testid="stBottomBlockContainer"],
-        [data-testid="stStatusWidget"],
-        .stAppDeployButton,
+        /* 2. إخفاء الشارات العائمة الحالية والمستقبلية (Hosted with Streamlit / Created by) */
         div[class*="viewerBadge"],
         div[class*="viewerBadge_container"],
         div[class*="styles_viewerBadge"],
         div[class*="StyledAppViewerFooter"],
         div[class*="AppViewerFooter"],
         div[class*="stAppFooter"],
+        .stAppDeployButton,
+        .stAppFooter,
         a[href*="streamlit.io"],
         a[aria-label*="Streamlit"],
         div:has(> a[href*="streamlit.io"]),
@@ -62,14 +62,24 @@ st.markdown(
             width: 0 !important;
         }
 
-        /* 3. إخفاء تعليمات الإدخال الإنجليزية */
+        /* 3. إخفاء أي عناصر عائمة مثبتة في أسفل الشاشة على الجوال */
+        div[style*="position: fixed"][style*="bottom"],
+        div[style*="position: fixed"][style*="bottom: 0px"],
+        div[style*="position: fixed"][style*="bottom: 0"],
+        div[style*="bottom: 0px"],
+        div[style*="bottom: 0"] {
+            display: none !important;
+            visibility: hidden !important;
+        }
+
+        /* 4. إخفاء تعليمات الإدخال الإنجليزية */
         div[data-testid="stInputInstructions"],
         [data-testid="InputInstructions"],
         small[data-testid="stWidgetInstructions"] {
             display: none !important;
         }
 
-        /* 4. ضبط الخطوط والاتجاه من اليمين لليسار */
+        /* 5. ضبط الخطوط والاتجاه من اليمين لليسار */
         html, body, [class*="css"], font, label, input, button, select, p, div, h1, h2, h3 {
             font-family: 'Calibri', 'Segoe UI', 'Arial', sans-serif !important;
             direction: rtl;
@@ -116,13 +126,17 @@ if not image_found:
         ">
             <div style="border-bottom: 1px solid rgba(212, 175, 55, 0.4); padding-bottom: 12px; margin-bottom: 15px;">
                 <span style="background: linear-gradient(90deg, #d4af37, #f3e5ab); color: #0b192c; font-size: 15px; font-weight: bold; padding: 4px 14px; border-radius: 6px; font-family: Calibri, sans-serif;">🏛️ التجمع الصحي الثاني</span>
-                <div style="font-size: 22px; font-weight: bold; color: #ffffff; margin-top: 10px; font-family: Calibri, sans-serif;">إدارة الخدمات الصيدلانية - قسم الرقابة الدوائية</div>
+                <div style="font-size: 22px; font-weight: bold; color: #ffffff; margin-top: 10px; font-family: Calibri, sans-serif;">إدارة الخدمات الصيدلانية لمراكز الرعاية الصحية الأولية</div>
             </div>
             <div style="margin-bottom: 15px;">
-                <span style="font-size: 32px; font-weight: bold; color: #ffffff; font-family: Calibri, sans-serif;">تقييم الأدوية المخدرة والمؤثرات العقلية</span>
+                <span style="font-size: 34px; font-weight: bold; color: #ffffff; font-family: Calibri, sans-serif;">تقرير تقييم الأدوية المخدرة والمؤثرات العقلية</span>
             </div>
             <div style="font-size: 16px; color: #cbd5e1; margin-bottom: 15px; font-family: Calibri, sans-serif;">
-                النموذج الموحد لتدقيق السجلات، الخزائن، والامتثال للسياسات المنظمة للأدوية الخاضعة للرقابة.
+                المنصة الرقمية الموحدة لتقييم ومتابعة عهد الأدوية المخدرة والرقابة الصيدلانية المباشرة.
+            </div>
+            <div>
+                <span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: white; padding: 5px 14px; border-radius: 8px; font-size: 14px; font-family: Calibri, sans-serif; margin-left: 8px;">📊 تقييم امتثال فوري</span>
+                <span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: white; padding: 5px 14px; border-radius: 8px; font-size: 14px; font-family: Calibri, sans-serif;">🖨️ تقارير PDF مباشرة</span>
             </div>
         </div>
     """,
@@ -130,31 +144,28 @@ if not image_found:
     )
 
 st.write(
-    "قم بتعبئة نموذج تقييم الأدوية المخدرة والمؤثرات العقلية للحصول على التقييم المباشر وتصدير التقرير المطبوع."
+    "قم بتعبئة النموذج الميداني أدناه للحصول على التقييم الفوري وتوليد تقرير PDF مطبوع مباشرة دون الحاجة للتعامل مع الإكسل."
 )
 st.divider()
 
 # ==========================================
-# 4. البيانات الأساسية (التاريخ فقط)
+# 4. البيانات الأساسية للزيارة التفتيشية
 # ==========================================
-st.subheader("📌 البيانات الأساسية للزيارة")
+st.subheader("📌 البيانات الأساسية للزيارة التفتيشية")
 c1, c2, c3 = st.columns(3)
 with c1:
     center_name = st.text_input(
-        "اسم المركز الصحي / المنشأة",
-        value="",
-        placeholder="أدخل اسم المركز الصحي",
+        "اسم المركز الصحي", value="", placeholder="أدخل اسم المركز الصحي"
     )
 with c2:
     inspector_name = st.text_input(
-        "اسم المفتش / المقيم",
+        "اسم المفتش / المُقيم",
         value="",
-        placeholder="أدخل اسم المفتش الميداني",
+        placeholder="أدخل اسم المفتش أو المُقيم",
     )
 with c3:
-    # التاريخ فقط - يمنع اختيار أي تاريخ سابق
     inspection_date = st.date_input(
-        "تاريخ التقييم",
+        "تاريخ التفتيش",
         value=saudi_now.date(),
         min_value=saudi_now.date(),
         format="YYYY/MM/DD",
@@ -163,74 +174,83 @@ with c3:
 st.divider()
 
 # ==========================================
-# 5. بنود التقييم الـ 13 الخاصة بالأدوية المخدرة
+# 5. بنود التقييم التفتيشية المحدثة
 # ==========================================
 items_data = [
+    # محور الخزنة والسياسات العامة
     (
         "1",
-        "السياسات والصلاحيات",
-        "وجود قائمة المعتمدين بكتابة الوصفات الطبية المخدرة والمؤثرات العقلية.",
+        "محور الخزنة والسياسات العامة",
+        "توفر سياسات صيدلانية محدثة ومعتمدة للأدوية المخدرة والمؤثرات العقلية.",
     ),
     (
         "2",
-        "السياسات والصلاحيات",
-        "توفر قائمة بالمصرح لهم بدخول غرفة الأدوية وحمل مفتاح الخزنة.",
+        "محور الخزنة والسياسات العامة",
+        "وجود قائمة المصرح لهم بكتابة الوصفات الطبية المخدرة.",
     ),
     (
         "3",
-        "السياسات والصلاحيات",
-        "توفر ونفاذ سياسات التعامل مع الأدوية المخدرة المحدثة والمعتمدة.",
+        "محور الخزنة والسياسات العامة",
+        "وجود قائمة للمصرح لهم بحمل مفتاح خزنة الأدوية المخدرة.",
     ),
     (
         "4",
-        "إجراءات الحفظ والتخزين",
-        "حفظ الأدوية المخدرة والمؤثرات العقلية داخل خزنة حديدية مغلقة ومثبتة.",
+        "محور الخزنة والسياسات العامة",
+        "توفر خزنة مخصصة ومحكمة الإغلاق للأدوية المخدرة.",
     ),
     (
         "5",
-        "إجراءات الحفظ والتخزين",
-        "حفظ مفتاح الخزنة بحوزة الصيدلي المسؤول المعتمد دائماً.",
+        "محور الخزنة والسياسات العامة",
+        "حفظ مفتاح الخزنة مع مسؤول غرفة الادوية دائما.",
     ),
     (
         "6",
-        "إجراءات الحفظ والتخزين",
-        "مطابقة الرصيد الفعلي في الخزنة مع السجلات ونظام رقيم.",
+        "محور الخزنة والسياسات العامة",
+        "مطابقة الرصيد الفعلي في الخزنة مع السجلات.",
     ),
+
+    # محور السجلات والمتابعة والجرد
     (
         "7",
-        "السجلات والتوثيق",
-        "وجود سجل رسمي معتمد لمتابعة وحصر الأدوية المخدرة والمؤثرات العقلية.",
+        "محور السجلات والمتابعة والجرد",
+        "التشييك على قائمة المتابعه اليومي.",
     ),
     (
         "8",
-        "السجلات والتوثيق",
-        "التوثيق الفوري والصحيح لكافة عمليات الصرف والاستلام والتسليم.",
+        "محور السجلات والمتابعة والجرد",
+        "توفر وصفات الادوية المخدره وتوفيرها عند الحاجه.",
     ),
     (
         "9",
-        "السجلات والتوثيق",
-        "اكتمال بيانات الوصفات الطبية الخاصة بالأدوية المخدرة والتوقيعات.",
+        "محور السجلات والمتابعة والجرد",
+        "توفر وتوثيق سجلات صرف واستلام الأدوية المخدرة والمؤثرات العقلية.",
     ),
     (
         "10",
-        "الإتلاف والعهدة",
-        "توفر ملف مخصص لمحاضر الإتلاف والفاقد والمكسور ومتابعة التعاميم.",
+        "محور السجلات والمتابعة والجرد",
+        "توفر ملف مخصص لإتلاف الأدوية المخدرة وتوثيق تعاميم السحب ومحاضر الإتلاف.",
     ),
     (
         "11",
-        "الإتلاف والعهدة",
-        "التقييم الدوري والجرد الفعلي للعهدة وتوثيق محاضر الاستلام والتسليم.",
+        "محور السجلات والمتابعة والجرد",
+        "توفر المدور والجرد.",
     ),
     (
         "12",
-        "الإتلاف والعهدة",
-        "التأكد من عدم وجود أدوية مخدرة منتهية الصلاحية أو تالفة دون اتخاذ"
-        " الإجراء النظامي.",
+        "محور السجلات والمتابعة والجرد",
+        "توفر وتوثيق المؤشرات الصفرية للأدوية المخدرة ورصد الأخطاء الدوائية.",
     ),
+
+    # محور اللجان والتوثيق الميداني
     (
         "13",
-        "الإتلاف والعهدة",
-        "سلامة أقفال ومحاضر الفتح الخاصة بعربة الطوارئ أو الحقيبة الإسعافية.",
+        "محور اللجان والتوثيق الميداني",
+        "توفر اعضاء لجان الصرف والوصف.",
+    ),
+    (
+        "14",
+        "محور اللجان والتوثيق الميداني",
+        "توفر محاضر اجتماع اللجنه والتوثيق بعد عمليات الصرف.",
     ),
 ]
 
@@ -238,13 +258,13 @@ sections = {}
 for num, sec, crit in items_data:
     sections.setdefault(sec, []).append((num, crit))
 
-st.subheader("📋 نموذج تقييم الرقابة على الأدوية المخدرة (13 بنداً)")
+st.subheader("📋 نموذج تقييم بنود الأدوية المخدرة")
 
 responses = []
 
-with st.form("narcotics_form"):
+with st.form("narcotics_inspection_form"):
     for sec_name, items in sections.items():
-        with st.expander(f"🔹 {sec_name} ({len(items)} بنود)", expanded=True):
+        with st.expander(f"🔹 {sec_name} ({len(items)} بند)", expanded=True):
             for num, crit in items:
                 col_crit, col_status, col_note = st.columns([4, 3, 3])
                 with col_crit:
@@ -261,7 +281,7 @@ with st.form("narcotics_form"):
                 with col_note:
                     note = st.text_input(
                         f"ملاحظة البند {num}",
-                        placeholder="ملاحظات التقييم (إن وجدت)",
+                        placeholder="ملاحظات المفتش / المُقيم",
                         key=f"note_{num}",
                         label_visibility="collapsed",
                     )
@@ -272,6 +292,15 @@ with st.form("narcotics_form"):
                     "status": status,
                     "notes": note,
                 })
+
+    # إضافة حقل الملاحظات إن وجدت بمساحة 3 أسطر قبل زر الاعتماد
+    st.markdown("<br>", unsafe_allow_html=True)
+    general_notes = st.text_area(
+        "الملاحظات إن وجدت",
+        placeholder="أدخل أي ملاحظات عامة أو توصيات ختامية هنا...",
+        height=100,  # مساحة 3 أسطر
+        key="general_notes_input",
+    )
 
     submit_btn = st.form_submit_button(
         "🚀 اعتماد التقييم وإصدار التقرير", use_container_width=True
@@ -302,17 +331,50 @@ if submit_btn:
     display_inspector = (
         inspector_name if inspector_name.strip() else "غير محدد"
     )
+    
+    current_saudi_time = datetime.now(saudi_tz)
+    formatted_time_str = current_saudi_time.strftime("%I:%M %p")
+
+    axis_summary = {
+        "axis1": {
+            "total": 6,
+            "matched": sum(1 for r in responses[:6] if r["status"] == "مطابق"),
+            "partial": sum(1 for r in responses[:6] if r["status"] == "جزئي"),
+            "unmatched": sum(
+                1 for r in responses[:6] if r["status"] in ["غير مطابق", None]
+            ),
+        },
+        "axis2": {
+            "total": 6,
+            "matched": sum(1 for r in responses[6:12] if r["status"] == "مطابق"),
+            "partial": sum(1 for r in responses[6:12] if r["status"] == "جزئي"),
+            "unmatched": sum(
+                1 for r in responses[6:12] if r["status"] in ["غير مطابق", None]
+            ),
+        },
+        "axis3": {
+            "total": 2,
+            "matched": sum(1 for r in responses[12:] if r["status"] == "مطابق"),
+            "partial": sum(1 for r in responses[12:] if r["status"] == "جزئي"),
+            "unmatched": sum(
+                1 for r in responses[12:] if r["status"] in ["غير مطابق", None]
+            ),
+        },
+    }
 
     if GOOGLE_SCRIPT_URL:
         payload = {
             "center_name": display_center,
             "inspector_name": display_inspector,
             "inspection_date": str(inspection_date),
+            "inspection_time": formatted_time_str,
             "compliance_rate": f"{compliance_rate:.2f}",
             "matched_cnt": matched_cnt,
             "partial_cnt": partial_cnt,
             "unmatched_cnt": unmatched_cnt,
+            "general_notes": general_notes,
             "responses": responses,
+            "axis_summary": axis_summary,
         }
         try:
             headers = {"Content-Type": "application/json"}
@@ -323,18 +385,27 @@ if submit_btn:
                 timeout=30,
             )
             if res.status_code in [200, 302]:
-                st.success("✅ تم إرسال وحفظ التقرير بنجاح!")
+                st.success(
+                    "✅ تم حفظ التقرير بصفحتين في Google Drive وإرسال رابط"
+                    " الملف فوراً!"
+                )
             else:
-                st.warning("⚠️ تم حساب النتائج وتوليد التقرير محلياً.")
+                st.warning(
+                    "⚠️ تم حساب النتائج وتوليد التقرير محلياً (استجابة"
+                    f" السكريبت: {res.status_code})."
+                )
         except Exception:
-            st.warning("⚠️ تم حساب النتائج وتوليد التقرير محلياً.")
+            st.warning("⚠️ تم حساب النتائج وتوليد التقرير المطبوع محلياً.")
 
     st.subheader("📊 ملخص نتائج التقييم")
     m1, m2, m3, m4 = st.columns(4)
-    m1.metric("🏥 المنشأة / المركز", display_center)
-    m2.metric("👨‍⚕️ المفتش / المقيم", display_inspector)
-    m3.metric("📅 تاريخ التقييم", inspection_date.strftime("%Y/%m/%d"))
-    m4.metric("📈 نسبة الامتثال", f"{compliance_rate:.2f}%")
+    m1.metric("🏥 المركز الصحي", display_center)
+    m2.metric("👨‍⚕️ المفتش / المُقيم", display_inspector)
+    m3.metric(
+        "📅 تاريخ ووقت التفتيش",
+        f"{inspection_date.strftime('%Y/%m/%d')} ({formatted_time_str})",
+    )
+    m4.metric("📈 نسبة الامتثال الإجمالية", f"{compliance_rate:.2f}%")
 
     c1, c2, c3 = st.columns(3)
     c1.success(f"✅ مطابق: {matched_cnt}")
@@ -344,6 +415,12 @@ if submit_btn:
     st.divider()
 
     st.subheader("🖨️ التقرير المطبوع (PDF)")
+
+    display_notes_html = (
+        f"<div style='background:#f8fafc; border-right:4px solid #1e3e62; padding:10px; margin-top:15px; border-radius:4px;'><strong>📝 الملاحظات العامة:</strong><br>{general_notes}</div>"
+        if general_notes.strip()
+        else ""
+    )
 
     html_report = f"""
     <!DOCTYPE html>
@@ -365,17 +442,19 @@ if submit_btn:
         <button class="print-btn" onclick="window.print()">🖨️ اضغط هنا للطباعة أو الحفظ كـ PDF</button>
         <hr>
         <div class="header">
-            <p style="font-size:14px; color:#f3e5ab; margin-bottom:5px;">🏛️ التجمع الصحي الثاني - إدارة الخدمات الصيدلانية</p>
+            <p style="font-size:14px; color:#f3e5ab; margin-bottom:5px;">🏛️ التجمع الصحي الثاني - إدارة الخدمات الصيدلانية لمراكز الرعاية الصحية الأولية</p>
             <h2>تقرير تقييم الأدوية المخدرة والمؤثرات العقلية</h2>
-            <p><strong>اسم المركز:</strong> {display_center} | <strong>المقيم:</strong> {display_inspector} | <strong>تاريخ التقييم:</strong> {inspection_date.strftime('%Y/%m/%d')}</p>
+            <p><strong>اسم المركز:</strong> {display_center} | <strong>المفتش / المُقيم:</strong> {display_inspector} | <strong>التاريخ والوقت:</strong> {inspection_date.strftime('%Y/%m/%d')} - {formatted_time_str}</p>
             <p><strong>نسبة الامتثال الإجمالية:</strong> {compliance_rate:.2f}%</p>
         </div>
         
-        <h3>📋 تفاصيل بنود التقييم والملاحظات (13 بنداً):</h3>
+        {display_notes_html}
+        
+        <h3>📋 تفاصيل بنود التفتيش والملاحظات:</h3>
     """
 
     for sec_name, items in sections.items():
-        html_report += f"<h4>🔹 {sec_name}</h4><table><tr><th>م</th><th>المعيار</th><th>الحالة</th><th>ملاحظات المقيم</th></tr>"
+        html_report += f"<h4>🔹 {sec_name}</h4><table><tr><th>م</th><th>المعيار</th><th>الحالة</th><th>ملاحظات المفتش / المُقيم</th></tr>"
         sec_responses = [r for r in responses if r["section"] == sec_name]
         for it in sec_responses:
             st_text = it["status"] if it["status"] else "غير محدد"
@@ -393,13 +472,10 @@ if submit_btn:
 
     html_report += "</body></html>"
 
-    components.html(html_report, height=650, scrolling=True)
+    components.html(html_report, height=700, scrolling=True)
 
 # ==========================================
 # 7. تذييل الصفحة الرسمي
 # ==========================================
 st.markdown("---")
-st.caption(
-    "قسم الرقابة الدوائية - إدارة الخدمات الصيدلانية - تجمع الرياض الصحي"
-    " الثاني"
-)
+st.caption("إدارة الخدمات الصيدلانية - تجمع الرياض الصحي الثاني")
