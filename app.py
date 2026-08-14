@@ -41,7 +41,7 @@ st.markdown(
             height: 0 !important;
         }
 
-        /* 2. إخفاء الشارات العائمة الحالية والمستقبلية (Hosted with Streamlit / Created by) */
+        /* 2. إخفاء الشارات العائمة (Hosted with Streamlit) */
         div[class*="viewerBadge"],
         div[class*="viewerBadge_container"],
         div[class*="styles_viewerBadge"],
@@ -62,7 +62,7 @@ st.markdown(
             width: 0 !important;
         }
 
-        /* 3. إخفاء أي عناصر عائمة مثبتة في أسفل الشاشة على الجوال */
+        /* 3. إخفاء العناصر العائمة أسفل الشاشة على الجوال */
         div[style*="position: fixed"][style*="bottom"],
         div[style*="position: fixed"][style*="bottom: 0px"],
         div[style*="position: fixed"][style*="bottom: 0"],
@@ -174,7 +174,7 @@ with c3:
 st.divider()
 
 # ==========================================
-# 5. بنود التقييم التفتيشية الـ 15 المحدثة
+# 5. بنود التقييم التفتيشية الـ 15
 # ==========================================
 items_data = [
     # محور الخزنة والسياسات العامة (6 بنود)
@@ -267,49 +267,48 @@ st.subheader("📋 نموذج تقييم بنود الأدوية المخدرة"
 
 responses = []
 
-with st.form("narcotics_inspection_form"):
-    for sec_name, items in sections.items():
-        with st.expander(f"🔹 {sec_name} ({len(items)} بند)", expanded=True):
-            for num, crit in items:
-                col_crit, col_status, col_note = st.columns([4, 3, 3])
-                with col_crit:
-                    st.markdown(f"**{num}.** {crit}")
-                with col_status:
-                    status = st.radio(
-                        f"حالة البند {num}",
-                        ["مطابق", "جزئي", "غير مطابق"],
-                        index=None,
-                        horizontal=True,
-                        key=f"status_{num}",
-                        label_visibility="collapsed",
-                    )
-                with col_note:
-                    note = st.text_input(
-                        f"ملاحظة البند {num}",
-                        placeholder="ملاحظات المفتش / المُقيم",
-                        key=f"note_{num}",
-                        label_visibility="collapsed",
-                    )
-                responses.append({
-                    "id": int(num),
-                    "section": sec_name,
-                    "criterion": crit,
-                    "status": status,
-                    "notes": note,
-                })
+# عرض بنود التقييم بشكل مباشر بدون form معقد يسبب تجميد الكتابة
+for sec_name, items in sections.items():
+    with st.expander(f"🔹 {sec_name} ({len(items)} بند)", expanded=True):
+        for num, crit in items:
+            col_crit, col_status, col_note = st.columns([4, 3, 3])
+            with col_crit:
+                st.markdown(f"**{num}.** {crit}")
+            with col_status:
+                status = st.radio(
+                    f"حالة البند {num}",
+                    ["مطابق", "جزئي", "غير مطابق"],
+                    index=None,
+                    horizontal=True,
+                    key=f"status_{num}",
+                    label_visibility="collapsed",
+                )
+            with col_note:
+                note = st.text_input(
+                    f"ملاحظة البند {num}",
+                    placeholder="ملاحظات المفتش / المُقيم",
+                    key=f"note_{num}",
+                    label_visibility="collapsed",
+                )
+            responses.append({
+                "id": int(num),
+                "section": sec_name,
+                "criterion": crit,
+                "status": status,
+                "notes": note,
+            })
 
-    # حقل الملاحظات إن وجدت (مساحة 3 أسطر)
-    st.markdown("<br>", unsafe_allow_html=True)
-    general_notes = st.text_area(
-        "الملاحظات إن وجدت",
-        placeholder="أدخل أي ملاحظات عامة أو توصيات ختامية هنا...",
-        height=100,
-        key="general_notes_input",
-    )
+# حقل الملاحظات العامة
+st.markdown("<br>", unsafe_allow_html=True)
+general_notes = st.text_area(
+    "الملاحظات إن وجدت",
+    placeholder="أدخل أي ملاحظات عامة أو توصيات ختامية هنا...",
+    height=100,
+    key="general_notes_input",
+)
 
-    submit_btn = st.form_submit_button(
-        "🚀 اعتماد التقييم وإصدار التقرير", use_container_width=True
-    )
+st.markdown("<br>", unsafe_allow_html=True)
+submit_btn = st.button("🚀 اعتماد التقييم وإصدار التقرير", use_container_width=True)
 
 # ==========================================
 # 6. معالجة النتائج وإصدار التقرير
@@ -391,13 +390,12 @@ if submit_btn:
             )
             if res.status_code in [200, 302]:
                 st.success(
-                    "✅ تم حفظ التقرير في Google Drive وإرسال رابط"
-                    " الملف فوراً!"
+                    "✅ تم حفظ التقرير في Google Drive وإرسال رابط الملف إلى إيميلك (da720883@gmail.com) فوراً!"
                 )
             else:
                 st.warning(
-                    "⚠️ تم حساب النتائج وتوليد التقرير محلياً (استجابة"
-                    f" السكريبت: {res.status_code})."
+                    "⚠️ تم حساب النتائج وتوليد التقرير محلياً (استجابة السكريبت: "
+                    f"{res.status_code})."
                 )
         except Exception:
             st.warning("⚠️ تم حساب النتائج وتوليد التقرير المطبوع محلياً.")
