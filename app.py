@@ -19,7 +19,7 @@ st.set_page_config(
 saudi_tz = zoneinfo.ZoneInfo("Asia/Riyadh")
 saudi_now = datetime.now(saudi_tz)
 
-GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyV6LFprDfhzouJ64Ck8pNeercGjh13nZ0ASKvkpo8V86tQ85_QkKXYhRbPZjDUJVs/exec"
+GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyWG0qjqzVZq8jETuwRqRIV5uih5TQGVNm14WBv4rpCIbk4hhWS5VCp1_hRStoUxOg/exec"
 
 # ==========================================
 # 2. تنسيق الخطوط وإخفاء الشريط العلوي والسفلي والشارات بالكامل
@@ -250,12 +250,12 @@ items_data = [
     (
         "14",
         "محور اللجان والتوثيق الميداني",
-        "توفر اعضاء لجان الصرف والوصف.",
+        "توفر أعضاء لجان الصرف والوصف.",
     ),
     (
         "15",
         "محور اللجان والتوثيق الميداني",
-        "توفر محاضر اجتماع اللجنه والتوثيق بعد عمليات الصرف.",
+        "توفر محاضر اجتماع اللجنة والتوثيق بعد عمليات الصرف.",
     ),
 ]
 
