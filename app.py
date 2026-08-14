@@ -267,7 +267,6 @@ st.subheader("📋 نموذج تقييم بنود الأدوية المخدرة"
 
 responses = []
 
-# عرض بنود التقييم بشكل مباشر بدون form معقد يسبب تجميد الكتابة
 for sec_name, items in sections.items():
     with st.expander(f"🔹 {sec_name} ({len(items)} بند)", expanded=True):
         for num, crit in items:
@@ -298,7 +297,6 @@ for sec_name, items in sections.items():
                 "notes": note,
             })
 
-# حقل الملاحظات العامة
 st.markdown("<br>", unsafe_allow_html=True)
 general_notes = st.text_area(
     "الملاحظات إن وجدت",
@@ -390,7 +388,7 @@ if submit_btn:
             )
             if res.status_code in [200, 302]:
                 st.success(
-                    "✅ تم حفظ التقرير في Google Drive وإرسال رابط الملف إلى إيميلك (da720883@gmail.com) فوراً!"
+                    "✅ تم حفظ التقرير في Google Drive وإرسال رابط الملف فوراً!"
                 )
             else:
                 st.warning(
