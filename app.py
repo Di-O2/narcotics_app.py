@@ -19,7 +19,7 @@ st.set_page_config(
 saudi_tz = zoneinfo.ZoneInfo("Asia/Riyadh")
 saudi_now = datetime.now(saudi_tz)
 
-https://script.google.com/macros/s/AKfycbzrq1kKGARQuhDgowwFZkVVKPQsd728PkXP0rJ9ccawegb5oqCMcnFTvYvbkZmH8Lk/exec
+GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzrq1kKGARQuhDgowwFZkVVKPQsd728PkXP0rJ9ccawegb5oqCMcnFTvYvbkZmH8Lk/exec"
 
 # ==========================================
 # 2. تنسيق الخطوط وإخفاء الشريط العلوي والسفلي والشارات بالكامل
@@ -178,85 +178,25 @@ st.divider()
 # ==========================================
 items_data = [
     # محور الخزنة والسياسات العامة (6 بنود)
-    (
-        "1",
-        "محور الخزنة والسياسات العامة",
-        "توفر سياسات صيدلانية محدثة ومعتمدة للأدوية المخدرة والمؤثرات العقلية.",
-    ),
-    (
-        "2",
-        "محور الخزنة والسياسات العامة",
-        "وجود قائمة المصرح لهم بكتابة الوصفات الطبية المخدرة.",
-    ),
-    (
-        "3",
-        "محور الخزنة والسياسات العامة",
-        "وجود قائمة للمصرح لهم بحمل مفتاح خزنة الأدوية المخدرة.",
-    ),
-    (
-        "4",
-        "محور الخزنة والسياسات العامة",
-        "توفر خزنة مخصصة ومحكمة الإغلاق للأدوية المخدرة.",
-    ),
-    (
-        "5",
-        "محور الخزنة والسياسات العامة",
-        "حفظ مفتاح الخزنة مع مسؤول غرفة الادوية دائما.",
-    ),
-    (
-        "6",
-        "محور الخزنة والسياسات العامة",
-        "مطابقة الرصيد الفعلي في الخزنة مع السجلات.",
-    ),
+    ("1", "محور الخزنة والسياسات العامة", "توفر سياسات صيدلانية محدثة ومعتمدة للأدوية المخدرة والمؤثرات العقلية."),
+    ("2", "محور الخزنة والسياسات العامة", "وجود قائمة المصرح لهم بكتابة الوصفات الطبية المخدرة."),
+    ("3", "محور الخزنة والسياسات العامة", "وجود قائمة للمصرح لهم بحمل مفتاح خزنة الأدوية المخدرة."),
+    ("4", "محور الخزنة والسياسات العامة", "توفر خزنة مخصصة ومحكمة الإغلاق للأدوية المخدرة."),
+    ("5", "محور الخزنة والسياسات العامة", "حفظ مفتاح الخزنة مع مسؤول غرفة الادوية دائما."),
+    ("6", "محور الخزنة والسياسات العامة", "مطابقة الرصيد الفعلي في الخزنة مع السجلات."),
 
     # محور السجلات والمتابعة والجرد (7 بنود)
-    (
-        "7",
-        "محور السجلات والمتابعة والجرد",
-        "التشييك على قائمة المتابعه اليومي.",
-    ),
-    (
-        "8",
-        "محور السجلات والمتابعة والجرد",
-        "توفر وصفات الادوية المخدره وتوفيرها عند الحاجه.",
-    ),
-    (
-        "9",
-        "محور السجلات والمتابعة والجرد",
-        "توفر وتوثيق سجلات صرف واستلام الأدوية المخدرة .",
-    ),
-    (
-        "10",
-        "محور السجلات والمتابعة والجرد",
-        "توفر ملف مخصص لإتلاف الأدوية المخدرة وتوثيق تعاميم السحب ومحاضر الإتلاف.",
-    ),
-    (
-        "11",
-        "محور السجلات والمتابعة والجرد",
-        "توفر المدور والجرد.",
-    ),
-    (
-        "12",
-        "محور السجلات والمتابعة والجرد",
-        "توفر وتوثيق المؤشرات للأدوية المخدرة ورصد الأخطاء الدوائية.",
-    ),
-    (
-        "13",
-        "محور السجلات والمتابعة والجرد",
-        "الاحتفاظ بالوصفات و السجلات حسب السياسات و الانظمة ( الوصفات 3 سنوات ، السجلات 5 سنوات ).",
-    ),
+    ("7", "محور السجلات والمتابعة والجرد", "التشييك على قائمة المتابعه اليومي."),
+    ("8", "محور السجلات والمتابعة والجرد", "توفر وصفات الادوية المخدره وتوفيرها عند الحاجه."),
+    ("9", "محور السجلات والمتابعة والجرد", "توفر وتوثيق سجلات صرف واستلام الأدوية المخدرة ."),
+    ("10", "محور السجلات والمتابعة والجرد", "توفر ملف مخصص لإتلاف الأدوية المخدرة وتوثيق تعاميم السحب ومحاضر الإتلاف."),
+    ("11", "محور السجلات والمتابعة والجرد", "توفر المدور والجرد."),
+    ("12", "محور السجلات والمتابعة والجرد", "توفر وتوثيق المؤشرات للأدوية المخدرة ورصد الأخطاء الدوائية."),
+    ("13", "محور السجلات والمتابعة والجرد", "الاحتفاظ بالوصفات و السجلات حسب السياسات و الانظمة ( الوصفات 3 سنوات ، السجلات 5 سنوات )."),
 
     # محور اللجان والتوثيق الميداني (بندان)
-    (
-        "14",
-        "محور اللجان والتوثيق الميداني",
-        "توفر أعضاء لجان الصرف والوصف.",
-    ),
-    (
-        "15",
-        "محور اللجان والتوثيق الميداني",
-        "توفر محاضر اجتماع اللجنة والتوثيق بعد عمليات الصرف.",
-    ),
+    ("14", "محور اللجان والتوثيق الميداني", "توفر أعضاء لجان الصرف والوصف."),
+    ("15", "محور اللجان والتوثيق الميداني", "توفر محاضر اجتماع اللجنة والتوثيق بعد عمليات الصرف."),
 ]
 
 sections = {}
@@ -330,98 +270,52 @@ if submit_btn:
 
     compliance_rate = (total_score / len(responses)) * 100
     display_center = center_name if center_name.strip() else "غير محدد"
-    display_inspector = (
-        inspector_name if inspector_name.strip() else "غير محدد"
-    )
+    display_inspector = (inspector_name if inspector_name.strip() else "غير محدد")
     
     current_saudi_time = datetime.now(saudi_tz)
     formatted_time_str = current_saudi_time.strftime("%I:%M %p")
 
-    axis_summary = {
-        "axis1": {
-            "total": 6,
-            "matched": sum(1 for r in responses[:6] if r["status"] == "مطابق"),
-            "partial": sum(1 for r in responses[:6] if r["status"] == "جزئي"),
-            "unmatched": sum(
-                1 for r in responses[:6] if r["status"] in ["غير مطابق", None]
-            ),
-        },
-        "axis2": {
-            "total": 7,
-            "matched": sum(1 for r in responses[6:13] if r["status"] == "مطابق"),
-            "partial": sum(1 for r in responses[6:13] if r["status"] == "جزئي"),
-            "unmatched": sum(
-                1 for r in responses[6:13] if r["status"] in ["غير مطابق", None]
-            ),
-        },
-        "axis3": {
-            "total": 2,
-            "matched": sum(1 for r in responses[13:] if r["status"] == "مطابق"),
-            "partial": sum(1 for r in responses[13:] if r["status"] == "جزئي"),
-            "unmatched": sum(
-                1 for r in responses[13:] if r["status"] in ["غير مطابق", None]
-            ),
-        },
+    payload = {
+        "center_name": display_center,
+        "inspector_name": display_inspector,
+        "inspection_date": str(inspection_date),
+        "inspection_time": formatted_time_str,
+        "compliance_rate": f"{compliance_rate:.2f}",
+        "matched_cnt": matched_cnt,
+        "partial_cnt": partial_cnt,
+        "unmatched_cnt": unmatched_cnt,
+        "general_notes": general_notes,
+        "responses": responses,
     }
 
     if GOOGLE_SCRIPT_URL:
-        payload = {
-            "center_name": display_center,
-            "inspector_name": display_inspector,
-            "inspection_date": str(inspection_date),
-            "inspection_time": formatted_time_str,
-            "compliance_rate": f"{compliance_rate:.2f}",
-            "matched_cnt": matched_cnt,
-            "partial_cnt": partial_cnt,
-            "unmatched_cnt": unmatched_cnt,
-            "general_notes": general_notes,
-            "responses": responses,
-            "axis_summary": axis_summary,
-        }
         try:
             headers = {"Content-Type": "application/json"}
-            res = requests.post(
-                GOOGLE_SCRIPT_URL,
-                data=json.dumps(payload),
-                headers=headers,
-                timeout=30,
-            )
+            res = requests.post(GOOGLE_SCRIPT_URL, data=json.dumps(payload), headers=headers, timeout=30)
             if res.status_code in [200, 302]:
-                st.success(
-                    "✅ تم حفظ التقرير في Google Drive وإرسال رابط الملف فوراً!"
-                )
+                st.success("✅ تم حفظ التقرير في Google Drive وإرسال رابط الملف فوراً!")
             else:
-                st.warning(
-                    "⚠️ تم حساب النتائج وتوليد التقرير محلياً (استجابة السكريبت: "
-                    f"{res.status_code})."
-                )
+                st.warning(f"⚠️ استجابة السكريبت: {res.status_code}")
         except Exception:
-            st.warning("⚠️ تم حساب النتائج وتوليد التقرير المطبوع محلياً.")
+            st.warning("⚠️ تعذر الاتصال بخادم التقارير.")
 
     st.subheader("📊 ملخص نتائج التقييم")
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("🏥 المركز الصحي", display_center)
     m2.metric("👨‍⚕️ المفتش / المُقيم", display_inspector)
-    m3.metric(
-        "📅 تاريخ ووقت التفتيش",
-        f"{inspection_date.strftime('%Y/%m/%d')} ({formatted_time_str})",
-    )
+    m3.metric("📅 تاريخ ووقت التفتيش", f"{inspection_date.strftime('%Y/%m/%d')} ({formatted_time_str})")
     m4.metric("📈 نسبة الامتثال الإجمالية", f"{compliance_rate:.2f}%")
 
     c1, c2, c3 = st.columns(3)
     c1.success(f"✅ مطابق: {matched_cnt}")
     c2.warning(f"⚠️ جزئي: {partial_cnt}")
-    c3.error(f"❌ غير مطابق / لم يحدد: {unmatched_cnt}")
+    c3.error(f"❌ غير مطابق: {unmatched_cnt}")
 
     st.divider()
 
     st.subheader("🖨️ التقرير المطبوع (PDF)")
-
-    display_notes_html = (
-        f"<div style='background:#f8fafc; border-right:4px solid #1e3e62; padding:10px; margin-top:15px; border-radius:4px;'><strong>📝 الملاحظات العامة:</strong><br>{general_notes}</div>"
-        if general_notes.strip()
-        else ""
-    )
+    
+    display_notes_html = f"<div style='background:#f8fafc; border-right:4px solid #1e3e62; padding:10px; margin-top:15px; border-radius:4px;'><strong>📝 الملاحظات العامة:</strong><br>{general_notes}</div>" if general_notes.strip() else ""
 
     html_report = f"""
     <!DOCTYPE html>
@@ -448,9 +342,7 @@ if submit_btn:
             <p><strong>اسم المركز:</strong> {display_center} | <strong>المفتش / المُقيم:</strong> {display_inspector} | <strong>التاريخ والوقت:</strong> {inspection_date.strftime('%Y/%m/%d')} - {formatted_time_str}</p>
             <p><strong>نسبة الامتثال الإجمالية:</strong> {compliance_rate:.2f}%</p>
         </div>
-        
         {display_notes_html}
-        
         <h3>📋 تفاصيل بنود التفتيش والملاحظات:</h3>
     """
 
@@ -459,18 +351,9 @@ if submit_btn:
         sec_responses = [r for r in responses if r["section"] == sec_name]
         for it in sec_responses:
             st_text = it["status"] if it["status"] else "غير محدد"
-            status_class = (
-                "warning"
-                if st_text == "جزئي"
-                else (
-                    "danger"
-                    if st_text in ["غير مطابق", "غير محدد"]
-                    else ""
-                )
-            )
+            status_class = "warning" if st_text == "جزئي" else ("danger" if st_text in ["غير مطابق", "غير محدد"] else "")
             html_report += f"<tr><td>{it['id']}</td><td>{it['criterion']}</td><td class='{status_class}'>{st_text}</td><td>{it['notes']}</td></tr>"
         html_report += "</table>"
-
     html_report += "</body></html>"
 
     components.html(html_report, height=700, scrolling=True)
