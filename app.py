@@ -19,7 +19,7 @@ st.set_page_config(
 saudi_tz = zoneinfo.ZoneInfo("Asia/Riyadh")
 saudi_now = datetime.now(saudi_tz)
 
-GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNVcGm7Ct1YiI9ZxXziNHyTKjpkOTkthkkaD1JvyY1DL4airewyogDV727XUweCLXJ/exec"
+GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwWtJitIMEctaD1n_qiSlvVl1qV6nOk0NVxGGBeU7vZJptbQSMH6pDlOMxjVId0tAk/exec"
 
 # ==========================================
 # 2. تنسيق الخطوط وإخفاء الشريط العلوي والسفلي والشارات بالكامل
@@ -391,7 +391,7 @@ if submit_btn:
             )
             if res.status_code in [200, 302]:
                 st.success(
-                    "✅ تم حفظ التقرير بصفحتين في Google Drive وإرسال رابط"
+                    "✅ تم حفظ التقرير في Google Drive وإرسال رابط"
                     " الملف فوراً!"
                 )
             else:
