@@ -286,15 +286,42 @@ if submit_btn:
 
     if GOOGLE_SCRIPT_URL:
         try:
-            headers = {"Content-Type": "application/json"}
-            res = requests.post(GOOGLE_SCRIPT_URL, data=json.dumps(payload), headers=headers, timeout=30)
-            if res.status_code in [200, 302]:
-                st.success("✅ تم حفظ التقرير في Google Drive وإرسال رابط الملف فوراً!")
-            else:
-                st.warning(f"⚠️ استجابة السكريبت: {res.status_code}")
-        except Exception:
-            st.warning("⚠️ تعذر الاتصال بخادم التقارير.")
+            res = requests.post(
+                GOOGLE_SCRIPT_URL,
+                json=payload,
+                timeout=30,
+            )
 
+            if res.ok:
+                try:
+                    result = res.json()
+                except ValueError:
+                    result = {}
+
+                if result.get("status") == "success":
+                    st.success("✅ تم حفظ التقرير في Google Drive بنجاح")
+
+                    report_url = result.get("url")
+                    if report_url:
+                        st.markdown(
+                            f"[📄 فتح التقرير في Google Drive]({report_url})"
+                        )
+
+                elif result.get("status") == "error":
+                    st.error(
+                        f"❌ خطأ من Apps Script: "
+                        f"{result.get('message', 'خطأ غير معروف')}"
+                    )
+
+                else:
+                    st.success("✅ تم إرسال التقرير إلى Google Apps Script بنجاح")
+
+            else:
+                st.error(f"❌ خطأ HTTP: {res.status_code}")
+
+        except Exception as error:
+            st.error(f"❌ تعذر الاتصال بخادم التقارير: {error}")
+            
     st.subheader("📊 ملخص نتائج التقييم")
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("🏥 المركز الصحي", display_center)
