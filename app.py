@@ -19,8 +19,8 @@ st.set_page_config(
 saudi_tz = zoneinfo.ZoneInfo("Asia/Riyadh")
 saudi_now = datetime.now(saudi_tz)
 
-# الرابط الجديد والنهائي المعتمد
-GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxAzOIYSoNXLvVwqN30dC7w99VEq-WePpgrUxOsT0ez1J-OzNeuIov0B848ekuR2wbaxQ/exec"
+# الرابط الجديد والمعتمد لـ Google Apps Script
+GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmTHN8Qd9beCAPiXzWnh4_shYKrFW80hLo8L-y6UeE0Xah1uHuR9dVYXVwDY5dQ6WyUw/exec"
 
 # ==========================================
 # 2. تنسيق الخطوط وإخفاء الشريط العلوي والسفلي والشارات بالكامل
@@ -28,7 +28,6 @@ GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxAzOIYSoNXLvVwqN30
 st.markdown(
     """
     <style>
-        /* 1. إخفاء الشريط العلوي والمنيو والهيدر والفوتر */
         header, footer, #MainMenu, 
         [data-testid="stHeader"], 
         [data-testid="stFooter"], 
@@ -42,7 +41,6 @@ st.markdown(
             height: 0 !important;
         }
 
-        /* 2. إخفاء الشارات العائمة (Hosted with Streamlit) */
         div[class*="viewerBadge"],
         div[class*="viewerBadge_container"],
         div[class*="styles_viewerBadge"],
@@ -63,7 +61,6 @@ st.markdown(
             width: 0 !important;
         }
 
-        /* 3. إخفاء العناصر العائمة أسفل الشاشة على الجوال */
         div[style*="position: fixed"][style*="bottom"],
         div[style*="position: fixed"][style*="bottom: 0px"],
         div[style*="position: fixed"][style*="bottom: 0"],
@@ -73,14 +70,12 @@ st.markdown(
             visibility: hidden !important;
         }
 
-        /* 4. إخفاء تعليمات الإدخال الإنجليزية */
         div[data-testid="stInputInstructions"],
         [data-testid="InputInstructions"],
         small[data-testid="stWidgetInstructions"] {
             display: none !important;
         }
 
-        /* 5. ضبط الخطوط والاتجاه من اليمين لليسار */
         html, body, [class*="css"], font, label, input, button, select, p, div, h1, h2, h3 {
             font-family: 'Calibri', 'Segoe UI', 'Arial', sans-serif !important;
             direction: rtl;
