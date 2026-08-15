@@ -19,7 +19,7 @@ st.set_page_config(
 saudi_tz = zoneinfo.ZoneInfo("Asia/Riyadh")
 saudi_now = datetime.now(saudi_tz)
 
-GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxanFu8CE8QON_RpjqLQCJz3QEJBZF12nhOWWd6-sdRRLYfrnovgtdwZ5PAS2vWn8BjSA/exec"
+GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz-bRhLjHlGObKfbiG9HKlXyDXdQmTSh6Ni9u7-g_y1i0WMVHZn3GlAXTULgWKqGDvgsw/exec"
 
 # ==========================================
 # 2. تنسيق الخطوط وإخفاء الشريط العلوي والسفلي والشارات بالكامل
