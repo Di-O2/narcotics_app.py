@@ -19,14 +19,15 @@ st.set_page_config(
 saudi_tz = zoneinfo.ZoneInfo("Asia/Riyadh")
 saudi_now = datetime.now(saudi_tz)
 
-# الرابط الجديد والنهائي المعتمد
 GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyyM0rDbNWebGtF1kPA1S3eqbiN5h54sh34BLfgEbRBLJAXKcE8fN4BSaP6upp88tM/exec"
+
 # ==========================================
 # 2. تنسيق الخطوط وإخفاء الشريط العلوي والسفلي والشارات بالكامل
 # ==========================================
 st.markdown(
     """
     <style>
+        /* 1. إخفاء الشريط العلوي والمنيو والهيدر والفوتر */
         header, footer, #MainMenu, 
         [data-testid="stHeader"], 
         [data-testid="stFooter"], 
@@ -34,20 +35,27 @@ st.markdown(
         [data-testid="stDecoration"],
         [data-testid="stStatusWidget"],
         [data-testid="stBottom"],
-        [data-testid="stBottomBlockContainer"] {
+        [data-testid="stBottomBlockContainer"],
+        [data-testid="manage-app-button"],
+        .stDeployButton,
+        .stAppDeployButton {
             display: none !important;
             visibility: hidden !important;
             height: 0 !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
         }
 
+        /* 2. إخفاء الشارات العائمة السفلية (شارة Manage App / Streamlit / GitHub) */
         div[class*="viewerBadge"],
         div[class*="viewerBadge_container"],
         div[class*="styles_viewerBadge"],
         div[class*="StyledAppViewerFooter"],
         div[class*="AppViewerFooter"],
         div[class*="stAppFooter"],
-        .stAppDeployButton,
-        .stAppFooter,
+        div[class*="manageApp"],
+        div[class*="FloatingContainer"],
+        [data-testid="stActionButton"],
         a[href*="streamlit.io"],
         a[aria-label*="Streamlit"],
         div:has(> a[href*="streamlit.io"]),
@@ -60,6 +68,7 @@ st.markdown(
             width: 0 !important;
         }
 
+        /* 3. إخفاء العناصر العائمة بأسفل الشاشة على الجوال والكمبيوتر */
         div[style*="position: fixed"][style*="bottom"],
         div[style*="position: fixed"][style*="bottom: 0px"],
         div[style*="position: fixed"][style*="bottom: 0"],
@@ -69,6 +78,7 @@ st.markdown(
             visibility: hidden !important;
         }
 
+        /* 4. إزالة الحدود والتنسيقات غير الضرورية */
         div[data-testid="stInputInstructions"],
         [data-testid="InputInstructions"],
         small[data-testid="stWidgetInstructions"] {
@@ -129,10 +139,6 @@ if not image_found:
             <div style="font-size: 16px; color: #cbd5e1; margin-bottom: 15px; font-family: Calibri, sans-serif;">
                 المنصة الرقمية الموحدة لتقييم ومتابعة عهد الأدوية المخدرة والرقابة الصيدلانية المباشرة.
             </div>
-            <div>
-                <span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: white; padding: 5px 14px; border-radius: 8px; font-size: 14px; font-family: Calibri, sans-serif; margin-left: 8px;">📊 تقييم امتثال فوري</span>
-                <span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: white; padding: 5px 14px; border-radius: 8px; font-size: 14px; font-family: Calibri, sans-serif;">🖨️ تقارير PDF مباشرة</span>
-            </div>
         </div>
     """,
         unsafe_allow_html=True,
@@ -159,10 +165,10 @@ with c2:
         placeholder="أدخل اسم المفتش أو المُقيم",
     )
 with c3:
+    # يفتح على تاريخ اليوم مع إمكانية اختيار التواريخ السابقة
     inspection_date = st.date_input(
         "تاريخ التفتيش",
         value=saudi_now.date(),
-        min_value=saudi_now.date(),
         format="YYYY/MM/DD",
     )
 
